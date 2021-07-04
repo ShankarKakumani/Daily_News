@@ -82,6 +82,17 @@
                     app:layout_constraintTop_toBottomOf="@id/title" />
 
 
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/grey_60"
+                    app:layout_constraintBottom_toTopOf="@id/desc"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/showVideosRecycler"
                     android:layout_width="match_parent"
@@ -90,7 +101,7 @@
                     android:nestedScrollingEnabled="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/desc" />
+                    app:layout_constraintTop_toBottomOf="@id/line" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

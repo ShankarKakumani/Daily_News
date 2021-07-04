@@ -14,7 +14,7 @@ object BindingAdapter {
         Glide.with(view.context)
             .load(imageUrl)
             .error(R.drawable.placeholder_rectangle)
-            .placeholder(R.drawable.placeholder)
+            .placeholder(R.drawable.placeholder_rectangle)
             .skipMemoryCache(false)
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .into(view)
