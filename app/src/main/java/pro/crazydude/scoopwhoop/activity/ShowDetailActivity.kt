@@ -39,14 +39,21 @@ class ShowDetailActivity : AppCompatActivity() {
 
         binding.viewModel = viewModel
 
-        binding.showVideosRecycler.layoutManager =
-            GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
-        showDetailAdapter = ShowDetailAdapter(showDetailDataList)
-        showDetailAdapter.setHasStableIds(true)
-        binding.showVideosRecycler.adapter = showDetailAdapter
+        binding.retry.setOnClickListener {
+            viewModel.haveInternet.postValue(true)
+            viewModel.isLoading.postValue(true)
+            bindData()
+        }
+
+        initRecycler()
+        handlePagination()
 
         viewModel.topicSlug.value = intent.getStringExtra("topic_slug")
 
+
+    }
+
+    private fun handlePagination() {
         binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener
         { v, _, scrollY, _, _ ->
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
@@ -64,6 +71,15 @@ class ShowDetailActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun initRecycler() {
+        binding.showVideosRecycler.layoutManager =
+            GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
+        showDetailAdapter = ShowDetailAdapter(showDetailDataList)
+        showDetailAdapter.setHasStableIds(true)
+        binding.showVideosRecycler.adapter = showDetailAdapter
+
     }
 
     private fun bindData() {

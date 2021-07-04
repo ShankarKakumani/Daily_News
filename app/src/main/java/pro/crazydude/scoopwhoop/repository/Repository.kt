@@ -7,6 +7,7 @@ import com.android.volley.*
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import pro.crazydude.scoopwhoop.model.*
+import pro.crazydude.scoopwhoop.util.Constants.CAROUSEL_URL
 import pro.crazydude.scoopwhoop.util.Constants.EDITORS_PICK_URL
 import pro.crazydude.scoopwhoop.util.Constants.LATEST_URL
 import pro.crazydude.scoopwhoop.util.Constants.SHOW_DETAILS_URL
@@ -17,16 +18,27 @@ class Repository(private val context: Context) {
 
     private var queue: RequestQueue = Volley.newRequestQueue(context)
 
-    fun getData(dataModel: MutableLiveData<CarouselModel>, apiUrl: String) {
+    fun getData(dataModel: MutableLiveData<CarouselModel>, haveInternet: MutableLiveData<Boolean>) {
 
         val carouselRequest = StringRequest(
-            Request.Method.GET, apiUrl,
+            Request.Method.GET, CAROUSEL_URL,
             { response ->
                 val myResponse = Tools.getResponse(response, CarouselModel::class.java)
                 dataModel.postValue(myResponse)
+                haveInternet.postValue(true)
             },
             { error ->
-                Toast.makeText(context, "carousel error -> ${error.message}", Toast.LENGTH_SHORT).show()
+                when(error) {
+                    is NetworkError ->
+                    {
+                        haveInternet.postValue(false)
+                        Toast.makeText(context, "No Internet", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        error.printStackTrace()
+                    }
+
+                }
             }
         )
 
@@ -42,7 +54,7 @@ class Repository(private val context: Context) {
                 dataModel.postValue(myResponse)
             },
             { error ->
-                Toast.makeText(context, "latestData -> ${error.message}", Toast.LENGTH_SHORT).show()
+                error.printStackTrace()
             }
         )
         queue.add(latestRequest)
@@ -57,7 +69,7 @@ class Repository(private val context: Context) {
                 dataModel.postValue(myResponse)
             },
             { error ->
-                Toast.makeText(context, "editors pick -> ${error.message}", Toast.LENGTH_SHORT).show()
+                error.printStackTrace()
             }
         )
         queue.add(latestRequest)
@@ -74,13 +86,18 @@ class Repository(private val context: Context) {
                 dataModel.postValue(myResponse)
             },
             { error ->
-                Toast.makeText(context, "topShows error -> ${error.message}", Toast.LENGTH_SHORT).show()
+                error.printStackTrace()
             }
         )
         queue.add(topShowsRequest)
     }
 
-    fun getShowDetail(dataModel: MutableLiveData<ShowDetailModel>, topicSlug: String, offset: Int) {
+    fun getShowDetail(
+        dataModel: MutableLiveData<ShowDetailModel>,
+        topicSlug: String,
+        offset: Int,
+        haveInternet: MutableLiveData<Boolean>
+    ) {
         val url = if(offset == -1 || offset == 0) {
             "$SHOW_DETAILS_URL$topicSlug"
         } else {
@@ -92,13 +109,15 @@ class Repository(private val context: Context) {
             { response ->
                 val myResponse = Tools.getResponse(response, ShowDetailModel::class.java)
                 dataModel.postValue(myResponse)
+                haveInternet.postValue(true)
             },
             { error ->
 
                 when(error) {
                     is NetworkError ->
                     {
-
+                        haveInternet.postValue(false)
+                        Toast.makeText(context, "No Internet", Toast.LENGTH_SHORT).show()
                     }
                     else -> {
                         Toast.makeText(context, "${error.message}", Toast.LENGTH_SHORT).show()

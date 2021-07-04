@@ -61,8 +61,14 @@ class HomeFragment : Fragment(), BaseSliderView.OnSliderClickListener, ViewPager
 
 
     private fun initViews() {
-
         binding.viewModel = viewModel
+
+        binding.retry.setOnClickListener {
+            viewModel.haveInternet.postValue(true)
+            viewModel.isLoading.postValue(true)
+            bindData()
+        }
+
 
         latestRecycler()
         editorPicks()
