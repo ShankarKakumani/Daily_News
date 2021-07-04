@@ -13,11 +13,9 @@ import com.glide.slider.library.slidertypes.TextSliderView
 import com.glide.slider.library.tricks.ViewPagerEx
 import pro.crazydude.scoopwhoop.adapter.EditorsPickAdapter
 import pro.crazydude.scoopwhoop.adapter.LatestAdapter
+import pro.crazydude.scoopwhoop.adapter.TopShowsAdapter
 import pro.crazydude.scoopwhoop.databinding.ActivityMainBinding
-import pro.crazydude.scoopwhoop.model.Carousel
-import pro.crazydude.scoopwhoop.model.Data
-import pro.crazydude.scoopwhoop.model.EditorsPickData
-import pro.crazydude.scoopwhoop.model.LatestData
+import pro.crazydude.scoopwhoop.model.*
 import pro.crazydude.scoopwhoop.viewmodel.MainActivityViewModel
 
 
@@ -32,9 +30,11 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
     private val carouselImagesList: ArrayList<Carousel> = ArrayList()
     private val latestDataList: ArrayList<LatestData> = ArrayList()
     private val editorsPickDataList: ArrayList<EditorsPickData> = ArrayList()
+    private val topShowsDataList: ArrayList<TopShowsData> = ArrayList()
 
     private lateinit var latestAdapter: LatestAdapter
     private lateinit var editorsPickAdapter: EditorsPickAdapter
+    private lateinit var topShowsAdapter: TopShowsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,10 +51,20 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
 
     private fun initViews() {
         latestRecycler()
-        loadEditorsPicks()
+        editorPicks()
+        topShows()
+
     }
 
-    private fun loadEditorsPicks() {
+    private fun topShows() {
+        binding.topShowsRecycler.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        topShowsAdapter = TopShowsAdapter(topShowsDataList)
+        binding.topShowsRecycler.adapter = topShowsAdapter
+
+    }
+
+    private fun editorPicks() {
         binding.editorsPickRecycler.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         editorsPickAdapter = EditorsPickAdapter(editorsPickDataList)
@@ -94,12 +104,20 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
                 editorsPickAdapter.notifyDataSetChanged()
             }
         })
+
+        viewModel.topShowsData.observe(this, {
+            it.let {
+                topShowsDataList.addAll(it.data)
+                topShowsAdapter.notifyDataSetChanged()
+            }
+        })
     }
 
     private fun bindData() {
         viewModel.loadCarousel()
         viewModel.loadLatest()
         viewModel.loadEditorsPick()
+        viewModel.loadTopShows()
     }
 
     private fun slider() {

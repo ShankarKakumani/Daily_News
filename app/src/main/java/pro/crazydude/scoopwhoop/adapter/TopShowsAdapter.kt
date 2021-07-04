@@ -5,16 +5,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import pro.crazydude.scoopwhoop.R
-import pro.crazydude.scoopwhoop.databinding.ItemLatestBinding
-import pro.crazydude.scoopwhoop.model.LatestData
+import pro.crazydude.scoopwhoop.databinding.ItemTopShowsBinding
+import pro.crazydude.scoopwhoop.model.TopShowsData
 
-class LatestAdapter(private val dataList: ArrayList<LatestData>) : RecyclerView.Adapter<LatestAdapter.ViewHolder>() {
+class TopShowsAdapter(private val dataList: ArrayList<TopShowsData>) : RecyclerView.Adapter<TopShowsAdapter.ViewHolder>() {
 
-    class ViewHolder(itemBinding: ItemLatestBinding) :
+    class ViewHolder(itemBinding: ItemTopShowsBinding) :
 
         RecyclerView.ViewHolder(itemBinding.root) {
-        var binding: ItemLatestBinding = itemBinding
-
+        var binding: ItemTopShowsBinding = itemBinding
 
     }
 
@@ -22,7 +21,7 @@ class LatestAdapter(private val dataList: ArrayList<LatestData>) : RecyclerView.
         return ViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.item_latest,
+                R.layout.item_top_shows,
                 parent,
                 false
             )

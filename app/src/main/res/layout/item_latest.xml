@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="model"
+            type="pro.crazydude.scoopwhoop.model.LatestData" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/movieLayout"
+        android:layout_width="150dp"
+        android:layout_height="190dp"
+        android:background="?attr/selectableItemBackground"
+        android:transitionName="cardname"
+        app:cardBackgroundColor="@color/grey_800"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/movieImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:loadImage="@{model.show.feature_img_port}"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@+id/movieNameView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:gravity="start"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                android:text="@{model.title}"
+                tools:text="Title" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
