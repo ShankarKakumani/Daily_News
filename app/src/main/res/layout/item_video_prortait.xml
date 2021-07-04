@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+        <variable
+            name="model"
+            type="pro.crazydude.scoopwhoop.model.LatestData" />
+    </data>
+
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/movieLayout"
-        android:layout_width="150dp"
+        android:layout_width="170dp"
         android:layout_height="200dp"
         android:background="?attr/selectableItemBackground"
         android:transitionName="cardname"
@@ -22,13 +28,8 @@
                 android:id="@+id/movieImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:loadImage="@{model.onexone_img}"
                 android:scaleType="fitXY"/>
-
-            <ProgressBar
-                android:id="@+id/movieProgressBar"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_margin="5dp" />
 
             <TextView
                 android:id="@+id/movieNameView"
@@ -40,8 +41,10 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="12sp"
+                android:textStyle="bold"
                 android:visibility="visible"
-                tools:text="Srimanthudu" />
+                android:text="@{model.title}"
+                tools:text="Title" />
 
         </RelativeLayout>
 

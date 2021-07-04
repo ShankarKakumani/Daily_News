@@ -11,7 +11,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/movieLayout"
         android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:background="?attr/selectableItemBackground"
         android:transitionName="cardname"
         app:cardBackgroundColor="@color/grey_800"

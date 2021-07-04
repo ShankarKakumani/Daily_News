@@ -25,35 +25,11 @@ class LatestAdapter(private val dataList: ArrayList<LatestData>) : RecyclerView.
 
         fun bindData(data: LatestData) {
             Glide.with(binding.movieImageView)
-                .load(data.video_thumbnail_2x3)
+                .load(data.feature_img)
                 .error(R.drawable.placeholder_image)
                 .placeholder(R.drawable.placeholder_image)
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .addListener(object : RequestListener<Drawable?> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any,
-                        target: Target<Drawable?>,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        binding.movieNameView.visibility = View.VISIBLE
-                        binding.movieProgressBar.visibility = View.VISIBLE
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any,
-                        target: Target<Drawable?>,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        binding.movieNameView.visibility = View.GONE
-                        binding.movieProgressBar.visibility = View.GONE
-                        return false
-                    }
-                })
                 .into(binding.movieImageView)
 
 
@@ -73,7 +49,8 @@ class LatestAdapter(private val dataList: ArrayList<LatestData>) : RecyclerView.
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindData(dataList[position])
+//        holder.bindData(dataList[position])
+        holder.binding.model = dataList[position]
     }
 
     override fun getItemCount(): Int {
