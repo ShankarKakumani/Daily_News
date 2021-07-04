@@ -81,7 +81,6 @@ class ShowDetailActivity : AppCompatActivity() {
                 showDetailDataList.addAll(it.data)
                 viewModel.offset.postValue(it.next_offset)
                 viewModel.isLoading.postValue(false)
-//                viewModel.loadMore.postValue(false)
                 showDetailAdapter.notifyDataSetChanged()
             }
         })
