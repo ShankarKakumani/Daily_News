@@ -1,6 +1,6 @@
 package pro.crazydude.scoopwhoop.model
 
-data class DataModel(
+data class CarouselModel(
     val `data`: List<Data>,
     val err: String,
     val status: Int,
@@ -53,4 +53,10 @@ data class Show(
 data class TopicDisplay(
     val topic_display: String,
     val topic_slug: String
+)
+
+
+data class Carousel(
+    val imageUrl : String,
+    val title: String
 )

@@ -3,19 +3,23 @@ package pro.crazydude.scoopwhoop.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.request.RequestOptions
 import com.glide.slider.library.SliderLayout
 import com.glide.slider.library.animations.DescriptionAnimation
 import com.glide.slider.library.slidertypes.BaseSliderView
 import com.glide.slider.library.slidertypes.BaseSliderView.OnSliderClickListener
-import com.glide.slider.library.slidertypes.DefaultSliderView
 import com.glide.slider.library.slidertypes.TextSliderView
 import com.glide.slider.library.tricks.ViewPagerEx
+import pro.crazydude.scoopwhoop.adapter.LatestAdapter
 import pro.crazydude.scoopwhoop.databinding.ActivityMainBinding
+import pro.crazydude.scoopwhoop.model.Carousel
+import pro.crazydude.scoopwhoop.model.Data
+import pro.crazydude.scoopwhoop.model.LatestData
 import pro.crazydude.scoopwhoop.viewmodel.MainActivityViewModel
 
 
-class MainActivity : AppCompatActivity() , OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
 
     private lateinit var viewModel: MainActivityViewModel
@@ -23,7 +27,10 @@ class MainActivity : AppCompatActivity() , OnSliderClickListener, ViewPagerEx.On
 
     private lateinit var imageSlider: SliderLayout
 
-    private val carouselImagesList: ArrayList<String> = ArrayList()
+    private val carouselImagesList: ArrayList<Carousel> = ArrayList()
+    private val latestDataList: ArrayList<LatestData> = ArrayList()
+
+    private lateinit var latestAdapter: LatestAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,26 +40,46 @@ class MainActivity : AppCompatActivity() , OnSliderClickListener, ViewPagerEx.On
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
-//        initViews()
+        initViews()
         bindData()
         observeLiveData()
+    }
+
+    private fun initViews() {
+        latestRecycler()
+    }
+
+    private fun latestRecycler() {
+        binding.latestRecycler.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        latestAdapter = LatestAdapter(latestDataList)
+        binding.latestRecycler.adapter = latestAdapter
+
     }
 
 
     private fun observeLiveData() {
         viewModel.carouselData.observe(this, {
             it.let {
-                for(data in it.data)
-                {
-                    carouselImagesList.add(data.feature_img)
+                for (data in it.data) {
+                    carouselImagesList.add(Carousel(data.feature_img, data.title))
                 }
                 slider()
+            }
+        })
+
+
+        viewModel.latestData.observe(this, {
+            it.let {
+                latestDataList.addAll(it.data)
+                latestAdapter.notifyDataSetChanged()
             }
         })
     }
 
     private fun bindData() {
         viewModel.loadCarousel()
+        viewModel.loadLatest()
     }
 
     private fun slider() {
@@ -63,14 +90,14 @@ class MainActivity : AppCompatActivity() , OnSliderClickListener, ViewPagerEx.On
         for (i in carouselImagesList.indices) {
             val sliderView = TextSliderView(this)
 
-            sliderView.image(carouselImagesList[i])
-                .description("Description")
+            sliderView.image(carouselImagesList[i].imageUrl)
+                .description(carouselImagesList[i].title)
                 .setRequestOption(requestOptions)
                 .setProgressBarVisible(true)
                 .setOnSliderClickListener(this)
 
             sliderView.bundle(Bundle())
-            sliderView.bundle.putString("extra", "Description");
+            sliderView.bundle.putString("extra", carouselImagesList[i].title);
             imageSlider.addSlider(sliderView)
         }
         imageSlider.setPresetIndicator(SliderLayout.PresetIndicators.Right_Bottom)
