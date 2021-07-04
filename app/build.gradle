@@ -65,7 +65,9 @@ dependencies {
 
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
-    def lottieVersion = "3.4.0"
+    def lottieVersion = "3.7.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    implementation 'com.github.ShankarKakumani:AndroidTools:1.0.3'
 
 }

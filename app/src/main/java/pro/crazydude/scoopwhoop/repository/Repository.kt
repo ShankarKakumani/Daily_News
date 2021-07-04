@@ -1,11 +1,13 @@
 package pro.crazydude.scoopwhoop.repository
 
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import com.android.volley.*
+import com.android.volley.NetworkError
+import com.android.volley.Request
+import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.shankar.library.Tools.Toasty
 import pro.crazydude.scoopwhoop.model.*
 import pro.crazydude.scoopwhoop.util.Constants.CAROUSEL_URL
 import pro.crazydude.scoopwhoop.util.Constants.EDITORS_PICK_URL
@@ -32,7 +34,7 @@ class Repository(private val context: Context) {
                     is NetworkError ->
                     {
                         haveInternet.postValue(false)
-                        Toast.makeText(context, "No Internet", Toast.LENGTH_SHORT).show()
+                        Toasty.errorToast(context, "No Internet")
                     }
                     else -> {
                         error.printStackTrace()
@@ -117,10 +119,10 @@ class Repository(private val context: Context) {
                     is NetworkError ->
                     {
                         haveInternet.postValue(false)
-                        Toast.makeText(context, "No Internet", Toast.LENGTH_SHORT).show()
+                        Toasty.errorToast(context, "No Internet")
                     }
                     else -> {
-                        Toast.makeText(context, "${error.message}", Toast.LENGTH_SHORT).show()
+                        error.printStackTrace()
                     }
 
                 }

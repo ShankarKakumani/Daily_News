@@ -95,6 +95,7 @@ class ShowDetailActivity : AppCompatActivity() {
             it.let {
                 binding.model = it
                 showDetailDataList.addAll(it.data)
+                viewModel.currentOffset.postValue(viewModel.offset.value)
                 viewModel.offset.postValue(it.next_offset)
                 viewModel.isLoading.postValue(false)
                 showDetailAdapter.notifyDataSetChanged()
