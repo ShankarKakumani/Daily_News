@@ -3,9 +3,7 @@ package pro.crazydude.scoopwhoop.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import pro.crazydude.scoopwhoop.model.CarouselModel
-import pro.crazydude.scoopwhoop.model.LatestModel
-import pro.crazydude.scoopwhoop.model.TopShowsModel
+import pro.crazydude.scoopwhoop.model.*
 import pro.crazydude.scoopwhoop.repository.Repository
 import pro.crazydude.scoopwhoop.util.Constants
 
@@ -14,7 +12,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     private var repository: Repository = Repository(application)
     val carouselData = MutableLiveData<CarouselModel>()
     val latestData = MutableLiveData<LatestModel>()
-//    val editorsPickData = MutableLiveData<DataModel>()
+    val editorsPickData = MutableLiveData<EditorsPickModel>()
     val topShowsData = MutableLiveData<TopShowsModel>()
 
     fun loadCarousel() {
@@ -25,12 +23,12 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         repository.getLatestData(latestData)
     }
 
-//    fun loadEditorsPick() {
-//        repository.getData(editorsPickData, Constants.EDITORS_PICK_URL)
-//    }
+    fun loadEditorsPick() {
+        repository.getEditorsPick(editorsPickData)
+    }
 
-//    fun loadTopShows() {
-//        repository.getData(topShowsData, Constants.TOP_SHOWS_URL)
-//    }
+    fun loadTopShows() {
+        repository.getTopShows(topShowsData)
+    }
 
 }

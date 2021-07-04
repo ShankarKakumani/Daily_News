@@ -11,10 +11,12 @@ import com.glide.slider.library.slidertypes.BaseSliderView
 import com.glide.slider.library.slidertypes.BaseSliderView.OnSliderClickListener
 import com.glide.slider.library.slidertypes.TextSliderView
 import com.glide.slider.library.tricks.ViewPagerEx
+import pro.crazydude.scoopwhoop.adapter.EditorsPickAdapter
 import pro.crazydude.scoopwhoop.adapter.LatestAdapter
 import pro.crazydude.scoopwhoop.databinding.ActivityMainBinding
 import pro.crazydude.scoopwhoop.model.Carousel
 import pro.crazydude.scoopwhoop.model.Data
+import pro.crazydude.scoopwhoop.model.EditorsPickData
 import pro.crazydude.scoopwhoop.model.LatestData
 import pro.crazydude.scoopwhoop.viewmodel.MainActivityViewModel
 
@@ -29,8 +31,10 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
 
     private val carouselImagesList: ArrayList<Carousel> = ArrayList()
     private val latestDataList: ArrayList<LatestData> = ArrayList()
+    private val editorsPickDataList: ArrayList<EditorsPickData> = ArrayList()
 
     private lateinit var latestAdapter: LatestAdapter
+    private lateinit var editorsPickAdapter: EditorsPickAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +51,15 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
 
     private fun initViews() {
         latestRecycler()
+        loadEditorsPicks()
+    }
+
+    private fun loadEditorsPicks() {
+        binding.editorsPickRecycler.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        editorsPickAdapter = EditorsPickAdapter(editorsPickDataList)
+        binding.editorsPickRecycler.adapter = editorsPickAdapter
+
     }
 
     private fun latestRecycler() {
@@ -68,11 +81,17 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
             }
         })
 
-
         viewModel.latestData.observe(this, {
             it.let {
                 latestDataList.addAll(it.data)
                 latestAdapter.notifyDataSetChanged()
+            }
+        })
+
+        viewModel.editorsPickData.observe(this, {
+            it.let {
+                editorsPickDataList.addAll(it.data)
+                editorsPickAdapter.notifyDataSetChanged()
             }
         })
     }
@@ -80,6 +99,7 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
     private fun bindData() {
         viewModel.loadCarousel()
         viewModel.loadLatest()
+        viewModel.loadEditorsPick()
     }
 
     private fun slider() {

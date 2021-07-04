@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.cardview.widget.CardView android:id="@+id/movieLayout"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <data>
+        <variable
+            name="model"
+            type="pro.crazydude.scoopwhoop.model.EditorsPickData" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="140dp"
-        android:layout_height="180dp"
-        app:cardCornerRadius="5dp"
-        app:cardUseCompatPadding="true"
+        android:id="@+id/movieLayout"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:background="?attr/selectableItemBackground"
         android:transitionName="cardname"
         app:cardBackgroundColor="@color/grey_800"
-        android:background="?attr/selectableItemBackground"
-        xmlns:tools="http://schemas.android.com/tools">
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,14 +27,8 @@
                 android:id="@+id/movieImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="center" />
-
-            <ProgressBar
-                android:id="@+id/movieProgressBar"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_margin="5dp"
-                />
+                app:loadImage="@{model.feature_img}"
+                android:scaleType="fitXY"/>
 
             <TextView
                 android:id="@+id/movieNameView"
@@ -37,12 +36,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:gravity="start"
+                android:text="@{model.title}"
+                android:textStyle="bold"
+                tools:text="Title"
+                android:layout_marginStart="10dp"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                android:visibility="visible"
-                tools:text="Srimanthudu"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"/>
+                android:visibility="visible" />
 
         </RelativeLayout>
 

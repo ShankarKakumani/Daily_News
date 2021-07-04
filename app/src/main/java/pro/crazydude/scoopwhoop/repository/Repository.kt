@@ -8,8 +8,12 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import pro.crazydude.scoopwhoop.model.CarouselModel
+import pro.crazydude.scoopwhoop.model.EditorsPickModel
 import pro.crazydude.scoopwhoop.model.LatestModel
+import pro.crazydude.scoopwhoop.model.TopShowsModel
+import pro.crazydude.scoopwhoop.util.Constants.EDITORS_PICK_URL
 import pro.crazydude.scoopwhoop.util.Constants.LATEST_URL
+import pro.crazydude.scoopwhoop.util.Constants.TOP_SHOWS_URL
 import pro.crazydude.scoopwhoop.util.Tools
 
 class Repository(private val context: Context) {
@@ -25,7 +29,7 @@ class Repository(private val context: Context) {
                 dataModel.postValue(myResponse)
             },
             { error ->
-                Toast.makeText(context, "${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "carousel error -> ${error.message}", Toast.LENGTH_SHORT).show()
             }
         )
 
@@ -41,11 +45,42 @@ class Repository(private val context: Context) {
                 dataModel.postValue(myResponse)
             },
             { error ->
-                Toast.makeText(context, "${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "latestData -> ${error.message}", Toast.LENGTH_SHORT).show()
             }
         )
-
         queue.add(latestRequest)
+    }
+
+    fun getEditorsPick(dataModel: MutableLiveData<EditorsPickModel>) {
+
+        val latestRequest = StringRequest(
+            Request.Method.GET, EDITORS_PICK_URL,
+            { response ->
+                val myResponse = Tools.getResponse(response, EditorsPickModel::class.java)
+                dataModel.postValue(myResponse)
+            },
+            { error ->
+                Toast.makeText(context, "editors pick -> ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        )
+        queue.add(latestRequest)
+    }
+
+
+
+    fun getTopShows(dataModel: MutableLiveData<TopShowsModel>) {
+
+        val topShowsRequest = StringRequest(
+            Request.Method.GET, TOP_SHOWS_URL,
+            { response ->
+                val myResponse = Tools.getResponse(response, TopShowsModel::class.java)
+                dataModel.postValue(myResponse)
+            },
+            { error ->
+                Toast.makeText(context, "topShows error -> ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        )
+        queue.add(topShowsRequest)
     }
 
 

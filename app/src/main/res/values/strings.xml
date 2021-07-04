@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ScoopWhoop</string>
     <string name="latest">Latest</string>
+    <string name="editors_pick">Editors Pick</string>
     <string name="view_more">View more</string>
 </resources>

@@ -13,16 +13,15 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import pro.crazydude.scoopwhoop.R
-import pro.crazydude.scoopwhoop.databinding.ItemVideoGridBinding
-import pro.crazydude.scoopwhoop.model.Data
+import pro.crazydude.scoopwhoop.databinding.ItemVideoPrortaitBinding
 import pro.crazydude.scoopwhoop.model.LatestData
 
 class LatestAdapter(private val dataList: ArrayList<LatestData>) : RecyclerView.Adapter<LatestAdapter.ViewHolder>() {
 
-    class ViewHolder(itemBinding: ItemVideoGridBinding) :
+    class ViewHolder(itemBinding: ItemVideoPrortaitBinding) :
 
         RecyclerView.ViewHolder(itemBinding.root) {
-        var binding: ItemVideoGridBinding = itemBinding
+        var binding: ItemVideoPrortaitBinding = itemBinding
 
         fun bindData(data: LatestData) {
             Glide.with(binding.movieImageView)
@@ -66,7 +65,7 @@ class LatestAdapter(private val dataList: ArrayList<LatestData>) : RecyclerView.
         return ViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.item_video_grid,
+                R.layout.item_video_prortait,
                 parent,
                 false
             )
