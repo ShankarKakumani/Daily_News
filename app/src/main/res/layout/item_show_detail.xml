@@ -13,7 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:cardUseCompatPadding="true"
         app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/grey_1000"
+        app:cardBackgroundColor="@color/grey_800"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -32,14 +32,22 @@
                 android:contentDescription="@string/image_view"
                 />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/text_background"
+                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{model.title}"
                 android:textColor="@color/white"
-                android:background="@color/transparent_three"
-                android:padding="5dp"
                 android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="10dp"
                 android:gravity="center"
                 android:layout_alignParentBottom="true"
                 />

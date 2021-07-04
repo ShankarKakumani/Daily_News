@@ -13,8 +13,8 @@ object BindingAdapter {
     fun setDrawableImage(view: ImageView, imageUrl: String) {
         Glide.with(view.context)
             .load(imageUrl)
-            .error(R.drawable.placeholder_image)
-            .placeholder(R.drawable.placeholder_image)
+            .error(R.drawable.placeholder_rectangle)
+            .placeholder(R.drawable.placeholder)
             .skipMemoryCache(false)
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .into(view)

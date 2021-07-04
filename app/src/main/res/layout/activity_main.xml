@@ -1,235 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="pro.crazydude.scoopwhoop.viewmodel.MainActivityViewModel" />
-
-        <import type="android.view.View"/>
-    </data>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/black"
-        >
-        <androidx.core.widget.NestedScrollView
+        android:background="@color/black">
+
+        <FrameLayout
+            android:id="@+id/frame_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.isLoading()? View.GONE : View.VISIBLE, default = gone}"
-            >
+            android:layout_above="@+id/navigation"
+            android:layout_marginEnd="3dp" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".activity.MainActivity"
-                >
-
-
-                <com.glide.slider.library.SliderLayout
-                    android:id="@+id/slider"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="visible" />
-
-
-                <RelativeLayout
-                    android:id="@+id/rl_latest"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20sp"
-                    app:layout_constraintTop_toBottomOf="@+id/slider"
-                    >
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="10dp"
-                        >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/latest"
-                            android:textSize="18sp"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"
-                            />
-
-                        <View
-                            android:layout_width="30dp"
-                            android:layout_height="4dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@color/yellow_A400"
-                            />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text="@string/view_more"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp"
-
-                        />
-                </RelativeLayout>
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/latestRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/rl_latest"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:nestedScrollingEnabled="false"
-                    />
-
-
-                <RelativeLayout
-                    android:id="@+id/rl_editors_pick"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@+id/latestRecycler"
-                    >
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="10dp"
-                        >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/editors_pick"
-                            android:textSize="18sp"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"
-                            />
-
-                        <View
-                            android:layout_width="30dp"
-                            android:layout_height="4dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@color/yellow_A400"
-                            />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text="@string/view_more"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp"
-
-                        />
-                </RelativeLayout>
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/editorsPickRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/rl_editors_pick"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:nestedScrollingEnabled="false"
-                    />
-
-
-                <RelativeLayout
-                    android:id="@+id/rl_top_shows"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@+id/editorsPickRecycler"
-                    >
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="10dp"
-                        >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/top_shows"
-                            android:textSize="18sp"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"
-                            />
-
-                        <View
-                            android:layout_width="30dp"
-                            android:layout_height="4dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@color/yellow_A400"
-                            />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text="@string/view_more"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp"
-
-                        />
-                </RelativeLayout>
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/topShowsRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginStart="10dp"
-                    android:nestedScrollingEnabled="false"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rl_top_shows"
-                    tools:layout_editor_absoluteX="8dp" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.core.widget.NestedScrollView>
-
-        <com.github.ybq.android.spinkit.SpinKitView
-            android:id="@+id/spin_kit"
-            style="@style/SpinKitView.ThreeBounce"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            app:SpinKit_Color="@color/yellow_A400"
-            android:visibility="@{viewModel.isLoading()? View.VISIBLE : View.GONE, default = visible}"
-            />
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:background="@color/black"
+            app:itemHorizontalTranslationEnabled="false"
+            app:itemIconSize="22dp"
+            app:itemIconTint="@color/bottom_nav_colors"
+            app:itemTextColor="@color/bottom_nav_colors"
+            app:labelVisibilityMode="auto"
+            app:menu="@menu/menu_bottom_nav" />
 
     </RelativeLayout>
-
 
 </layout>

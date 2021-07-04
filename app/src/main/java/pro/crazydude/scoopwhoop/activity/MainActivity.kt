@@ -1,41 +1,34 @@
 package pro.crazydude.scoopwhoop.activity
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.request.RequestOptions
-import com.glide.slider.library.SliderLayout
-import com.glide.slider.library.animations.DescriptionAnimation
-import com.glide.slider.library.slidertypes.BaseSliderView
-import com.glide.slider.library.slidertypes.BaseSliderView.OnSliderClickListener
-import com.glide.slider.library.slidertypes.TextSliderView
-import com.glide.slider.library.tricks.ViewPagerEx
-import pro.crazydude.scoopwhoop.adapter.EditorsPickAdapter
-import pro.crazydude.scoopwhoop.adapter.LatestAdapter
-import pro.crazydude.scoopwhoop.adapter.TopShowsAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import pro.crazydude.scoopwhoop.R
 import pro.crazydude.scoopwhoop.databinding.ActivityMainBinding
-import pro.crazydude.scoopwhoop.model.*
+import pro.crazydude.scoopwhoop.fragment.HomeFragment
+import pro.crazydude.scoopwhoop.fragment.MenuFragment
+import pro.crazydude.scoopwhoop.fragment.ProfileFragment
 import pro.crazydude.scoopwhoop.viewmodel.MainActivityViewModel
 
 
-class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+class MainActivity : AppCompatActivity(){
 
 
     private lateinit var viewModel: MainActivityViewModel
     private lateinit var binding: ActivityMainBinding
+    private lateinit var bottomNav: BottomNavigationView
 
-    private lateinit var imageSlider: SliderLayout
 
-    private val carouselImagesList: ArrayList<Carousel> = ArrayList()
-    private val latestDataList: ArrayList<LatestData> = ArrayList()
-    private val editorsPickDataList: ArrayList<EditorsPickData> = ArrayList()
-    private val topShowsDataList: ArrayList<TopShowsData> = ArrayList()
+    private val homeFragment = HomeFragment()
+    private val profileFragment = ProfileFragment()
+    private val menuFragment = MenuFragment()
 
-    private lateinit var latestAdapter: LatestAdapter
-    private lateinit var editorsPickAdapter: EditorsPickAdapter
-    private lateinit var topShowsAdapter: TopShowsAdapter
+    private val fragmentManager = supportFragmentManager
+    private var active: Fragment = homeFragment
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,136 +39,65 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
-        initViews()
-        bindData()
-        observeLiveData()
-    }
 
-    private fun initViews() {
-
-        binding.viewModel = viewModel
-
-        latestRecycler()
-        editorPicks()
-        topShows()
+        bottomNavigation()
 
     }
 
-    private fun topShows() {
-        binding.topShowsRecycler.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        topShowsAdapter = TopShowsAdapter(topShowsDataList)
-        binding.topShowsRecycler.adapter = topShowsAdapter
+    private fun bottomNavigation() {
+        bottomNav = binding.navigation
 
-    }
+        addFragmentsToFragmentManager()
 
-    private fun editorPicks() {
-        binding.editorsPickRecycler.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        editorsPickAdapter = EditorsPickAdapter(editorsPickDataList)
-        binding.editorsPickRecycler.adapter = editorsPickAdapter
+        bottomNav.apply {
+            selectedItemId = R.id.menu_home
+            setOnNavigationItemSelectedListener {
+                when (it.itemId) {
 
-    }
+                    R.id.menu_home -> {
+                        setBottomNavFragment(homeFragment)
+                        true
 
-    private fun latestRecycler() {
-        binding.latestRecycler.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        latestAdapter = LatestAdapter(latestDataList)
-        binding.latestRecycler.adapter = latestAdapter
+                    }
+                    R.id.menu_profile -> {
+                        setBottomNavFragment(profileFragment)
+                        true
+                    }
+                    R.id.menu_menu -> {
+                        setBottomNavFragment(menuFragment)
+                        true
+                    }
 
-    }
-
-
-    private fun observeLiveData() {
-        viewModel.carouselData.observe(this, {
-            it.let {
-                for (data in it.data) {
-                    carouselImagesList.add(Carousel(data.feature_img, data.title))
+                    else -> {
+                        setBottomNavFragment(homeFragment)
+                        true
+                    }
                 }
-                slider()
             }
-        })
-
-        viewModel.latestData.observe(this, {
-            it.let {
-                latestDataList.addAll(it.data)
-                latestAdapter.notifyDataSetChanged()
-                viewModel.isLoading.postValue(false)
-            }
-        })
-
-        viewModel.editorsPickData.observe(this, {
-            it.let {
-                editorsPickDataList.addAll(it.data)
-                editorsPickAdapter.notifyDataSetChanged()
-            }
-        })
-
-        viewModel.topShowsData.observe(this, {
-            it.let {
-                topShowsDataList.addAll(it.data)
-                topShowsAdapter.notifyDataSetChanged()
-            }
-        })
-    }
-
-    private fun bindData() {
-        viewModel.loadCarousel()
-        viewModel.loadLatest()
-        viewModel.loadEditorsPick()
-        viewModel.loadTopShows()
-    }
-
-    private fun slider() {
-        imageSlider = binding.slider
-
-        val requestOptions = RequestOptions().centerCrop()
-        for (i in carouselImagesList.indices) {
-            val sliderView = TextSliderView(this)
-
-            sliderView.image(carouselImagesList[i].imageUrl)
-                .description(carouselImagesList[i].title)
-                .setRequestOption(requestOptions)
-                .setProgressBarVisible(true)
-                .setOnSliderClickListener(this)
-
-            sliderView.bundle(Bundle())
-            sliderView.bundle.putInt("position", i)
-            sliderView.bundle.putString("extra", carouselImagesList[i].title)
-            imageSlider.addSlider(sliderView)
-        }
-        imageSlider.setPresetIndicator(SliderLayout.PresetIndicators.Right_Bottom)
-        imageSlider.setCustomAnimation(DescriptionAnimation())
-        imageSlider.setDuration(3000)
-        imageSlider.addOnPageChangeListener(this)
-        imageSlider.stopCyclingWhenTouch(false)
-    }
-
-
-    override fun onSliderClick(slider: BaseSliderView?) {
-        viewModel.carouselData.value.let {
-            val intent = Intent(this, ShowDetailActivity::class.java)
-            intent.putExtra(
-                "topic_slug",
-                it!!.data[slider!!.bundle.getInt("position")].show.topic_display.topic_slug
-            )
-            startActivity(intent)
         }
 
     }
 
+    private fun addFragmentsToFragmentManager() {
+        fragmentManager.beginTransaction()
+            .add(R.id.frame_layout, homeFragment, "1").commit()
 
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+        fragmentManager.beginTransaction()
+            .add(R.id.frame_layout, profileFragment, "2")
+            .hide(profileFragment).commit()
 
-    override fun onPageSelected(position: Int) {
+        fragmentManager.beginTransaction()
+            .add(R.id.frame_layout, menuFragment, "3")
+            .hide(menuFragment).commit()
 
     }
 
-    override fun onPageScrollStateChanged(state: Int) {}
-
-    override fun onDestroy() {
-        imageSlider.stopAutoCycle()
-        super.onDestroy()
+    private fun setBottomNavFragment(fragment: Fragment) {
+        if (active != fragment) {
+            fragmentManager.beginTransaction().hide(active).show(fragment).commit()
+            active = fragment
+        }
     }
+
 
 }
