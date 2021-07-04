@@ -52,6 +52,9 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
     }
 
     private fun initViews() {
+
+        binding.viewModel = viewModel
+
         latestRecycler()
         editorPicks()
         topShows()
@@ -97,6 +100,7 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
             it.let {
                 latestDataList.addAll(it.data)
                 latestAdapter.notifyDataSetChanged()
+                viewModel.isLoading.postValue(false)
             }
         })
 

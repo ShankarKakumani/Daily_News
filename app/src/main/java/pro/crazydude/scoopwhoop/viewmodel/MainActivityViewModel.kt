@@ -14,6 +14,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     val latestData = MutableLiveData<LatestModel>()
     val editorsPickData = MutableLiveData<EditorsPickModel>()
     val topShowsData = MutableLiveData<TopShowsModel>()
+    val isLoading = MutableLiveData(true)
 
     fun loadCarousel() {
         repository.getData(carouselData, Constants.CAROUSEL_URL)

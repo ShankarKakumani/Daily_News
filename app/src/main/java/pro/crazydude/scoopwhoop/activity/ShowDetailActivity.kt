@@ -13,7 +13,6 @@ import pro.crazydude.scoopwhoop.databinding.ActivityShowDetailBinding
 import pro.crazydude.scoopwhoop.model.ShowDetailData
 import pro.crazydude.scoopwhoop.viewmodel.ShowDetailViewModel
 
-
 class ShowDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: ShowDetailViewModel
