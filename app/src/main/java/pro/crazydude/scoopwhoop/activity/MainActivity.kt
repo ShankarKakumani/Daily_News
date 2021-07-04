@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
     private lateinit var editorsPickAdapter: EditorsPickAdapter
     private lateinit var topShowsAdapter: TopShowsAdapter
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

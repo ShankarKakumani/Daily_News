@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">ScoopWhoop</string>
     <string name="latest">Latest</string>
-    <string name="editors_pick">Editors Pick</string>
-    <string name="view_more">View more</string>
+    <string name="view_more"><u>View more</u></string>
     <string name="top_shows">Top Shows</string>
     <string name="image_view">imageView</string>
     <string name="dot">.</string>
+    <string name="editors_pick">Editor\'s Pick</string>
 </resources>

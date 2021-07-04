@@ -13,6 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:cardUseCompatPadding="true"
         app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/grey_1000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"

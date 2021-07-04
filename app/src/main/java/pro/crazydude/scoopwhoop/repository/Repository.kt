@@ -3,8 +3,7 @@ package pro.crazydude.scoopwhoop.repository
 import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import com.android.volley.Request
-import com.android.volley.RequestQueue
+import com.android.volley.*
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import pro.crazydude.scoopwhoop.model.*
@@ -81,16 +80,32 @@ class Repository(private val context: Context) {
         queue.add(topShowsRequest)
     }
 
-    fun getShowDetail(dataModel: MutableLiveData<ShowDetailModel>, topicSlug : String) {
+    fun getShowDetail(dataModel: MutableLiveData<ShowDetailModel>, topicSlug: String, offset: Int) {
+        val url = if(offset == -1 || offset == 0) {
+            "$SHOW_DETAILS_URL$topicSlug"
+        } else {
+            "$SHOW_DETAILS_URL$topicSlug&offset=$offset"
+        }
 
         val showDetailRequest = StringRequest(
-            Request.Method.GET, SHOW_DETAILS_URL + topicSlug,
+            Request.Method.GET, url,
             { response ->
                 val myResponse = Tools.getResponse(response, ShowDetailModel::class.java)
                 dataModel.postValue(myResponse)
             },
             { error ->
-                Toast.makeText(context, "showDetail error -> ${error.message}", Toast.LENGTH_SHORT).show()
+
+                when(error) {
+                    is NetworkError ->
+                    {
+
+                    }
+                    else -> {
+                        Toast.makeText(context, "${error.message}", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
             }
         )
         queue.add(showDetailRequest)

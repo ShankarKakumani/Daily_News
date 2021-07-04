@@ -2,7 +2,9 @@ package pro.crazydude.scoopwhoop.activity
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import pro.crazydude.scoopwhoop.R
@@ -10,6 +12,7 @@ import pro.crazydude.scoopwhoop.adapter.ShowDetailAdapter
 import pro.crazydude.scoopwhoop.databinding.ActivityShowDetailBinding
 import pro.crazydude.scoopwhoop.model.ShowDetailData
 import pro.crazydude.scoopwhoop.viewmodel.ShowDetailViewModel
+
 
 class ShowDetailActivity : AppCompatActivity() {
 
@@ -19,6 +22,7 @@ class ShowDetailActivity : AppCompatActivity() {
     private val showDetailDataList: ArrayList<ShowDetailData> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityShowDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -34,19 +38,36 @@ class ShowDetailActivity : AppCompatActivity() {
 
     private fun initViews() {
 
+        binding.viewModel = viewModel
+
         binding.showVideosRecycler.layoutManager =
             GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
         showDetailAdapter = ShowDetailAdapter(showDetailDataList)
+        showDetailAdapter.setHasStableIds(true);
         binding.showVideosRecycler.adapter = showDetailAdapter
 
+        viewModel.topicSlug.value = intent.getStringExtra("topic_slug")
+
+        binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener
+        { v, _, scrollY, _, _ ->
+            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+
+                when (viewModel.offset.value) {
+                    -1 -> {
+                        Toast.makeText(this, "End of list ", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        viewModel.loadShowDetail()
+                    }
+                }
+            }
+        })
     }
 
     private fun bindData() {
-        val topicSlug = intent.getStringExtra("topic_slug")
 
-        if (!topicSlug.isNullOrEmpty()) {
-            viewModel.loadShowDetail(topicSlug)
-        }
+        viewModel.loadShowDetail()
+
     }
 
 
@@ -56,6 +77,8 @@ class ShowDetailActivity : AppCompatActivity() {
             it.let {
                 binding.model = it
                 showDetailDataList.addAll(it.data)
+                viewModel.offset.postValue(it.next_offset)
+                viewModel.isLoading.postValue(false)
                 showDetailAdapter.notifyDataSetChanged()
             }
         })
@@ -66,7 +89,7 @@ class ShowDetailActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setTitleTextColor(resources.getColor(R.color.white))
-        supportActionBar!!.title= "Show Detail"
+        supportActionBar!!.title = "Show Detail"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 

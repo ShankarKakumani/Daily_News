@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ScoopWhoop">
-        <activity android:name=".activity.ShowDetailActivity"></activity>
+        <activity android:name=".activity.ShowDetailActivity"
+            android:configChanges="screenLayout|orientation|screenSize"
+            />
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="screenLayout|orientation|screenSize">
