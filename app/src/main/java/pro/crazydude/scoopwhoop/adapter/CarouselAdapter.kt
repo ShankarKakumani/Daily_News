@@ -35,6 +35,8 @@ class CarouselAdapter(private val carouselList : ArrayList<Data>) : RecyclerView
 
     override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
         holder.bindData(carouselList[position])
+
+
     }
 
     override fun getItemCount(): Int {

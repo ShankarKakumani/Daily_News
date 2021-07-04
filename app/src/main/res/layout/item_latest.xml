@@ -11,8 +11,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/movieLayout"
-        android:layout_width="150dp"
-        android:layout_height="190dp"
+        android:layout_width="300dp"
+        android:layout_height="180dp"
         android:background="?attr/selectableItemBackground"
         android:transitionName="cardname"
         app:cardBackgroundColor="@color/grey_800"
@@ -28,7 +28,7 @@
                 android:id="@+id/movieImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:loadImage="@{model.show.feature_img_port}"
+                app:loadImage="@{model.feature_img}"
                 android:scaleType="centerCrop"/>
 
             <TextView

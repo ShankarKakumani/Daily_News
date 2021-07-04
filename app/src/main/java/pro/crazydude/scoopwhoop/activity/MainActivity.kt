@@ -1,5 +1,6 @@
 package pro.crazydude.scoopwhoop.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -123,8 +124,7 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
     private fun slider() {
         imageSlider = binding.slider
 
-        val requestOptions = RequestOptions()
-        requestOptions.centerCrop()
+        val requestOptions = RequestOptions().centerCrop()
         for (i in carouselImagesList.indices) {
             val sliderView = TextSliderView(this)
 
@@ -135,7 +135,8 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
                 .setOnSliderClickListener(this)
 
             sliderView.bundle(Bundle())
-            sliderView.bundle.putString("extra", carouselImagesList[i].title);
+            sliderView.bundle.putInt("position", i)
+            sliderView.bundle.putString("extra", carouselImagesList[i].title)
             imageSlider.addSlider(sliderView)
         }
         imageSlider.setPresetIndicator(SliderLayout.PresetIndicators.Right_Bottom)
@@ -147,13 +148,23 @@ class MainActivity : AppCompatActivity(), OnSliderClickListener, ViewPagerEx.OnP
 
 
     override fun onSliderClick(slider: BaseSliderView?) {
+        viewModel.carouselData.value.let {
+            val intent = Intent(this, ShowDetailActivity::class.java)
+            intent.putExtra(
+                "topic_slug",
+                it!!.data[slider!!.bundle.getInt("position")].show.topic_display.topic_slug
+            )
+            startActivity(intent)
+        }
 
     }
 
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
-    override fun onPageSelected(position: Int) {}
+    override fun onPageSelected(position: Int) {
+
+    }
 
     override fun onPageScrollStateChanged(state: Int) {}
 

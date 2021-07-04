@@ -8,6 +8,7 @@
     <color name="lightGray">#F2F2F2</color>
     <color name="disabledBtnBg">#999999</color>
     <color name="dark_gray">#111111</color>
+    <color name="transparent_three">#33000000</color>
 
     //For Settings
     <color name="contentBodyColor">#FCFCFC</color>

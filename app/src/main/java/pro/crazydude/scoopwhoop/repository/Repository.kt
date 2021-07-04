@@ -7,12 +7,10 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import pro.crazydude.scoopwhoop.model.CarouselModel
-import pro.crazydude.scoopwhoop.model.EditorsPickModel
-import pro.crazydude.scoopwhoop.model.LatestModel
-import pro.crazydude.scoopwhoop.model.TopShowsModel
+import pro.crazydude.scoopwhoop.model.*
 import pro.crazydude.scoopwhoop.util.Constants.EDITORS_PICK_URL
 import pro.crazydude.scoopwhoop.util.Constants.LATEST_URL
+import pro.crazydude.scoopwhoop.util.Constants.SHOW_DETAILS_URL
 import pro.crazydude.scoopwhoop.util.Constants.TOP_SHOWS_URL
 import pro.crazydude.scoopwhoop.util.Tools
 
@@ -83,5 +81,19 @@ class Repository(private val context: Context) {
         queue.add(topShowsRequest)
     }
 
+    fun getShowDetail(dataModel: MutableLiveData<ShowDetailModel>, topicSlug : String) {
+
+        val showDetailRequest = StringRequest(
+            Request.Method.GET, SHOW_DETAILS_URL + topicSlug,
+            { response ->
+                val myResponse = Tools.getResponse(response, ShowDetailModel::class.java)
+                dataModel.postValue(myResponse)
+            },
+            { error ->
+                Toast.makeText(context, "showDetail error -> ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        )
+        queue.add(showDetailRequest)
+    }
 
 }

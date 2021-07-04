@@ -16,7 +16,6 @@
         android:transitionName="cardname"
         app:cardBackgroundColor="@color/grey_800"
         android:background="?attr/selectableItemBackground"
-
         xmlns:tools="http://schemas.android.com/tools">
 
         <RelativeLayout
