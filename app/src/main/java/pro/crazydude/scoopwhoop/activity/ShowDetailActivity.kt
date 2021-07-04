@@ -1,8 +1,8 @@
 package pro.crazydude.scoopwhoop.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
@@ -42,7 +42,7 @@ class ShowDetailActivity : AppCompatActivity() {
         binding.showVideosRecycler.layoutManager =
             GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
         showDetailAdapter = ShowDetailAdapter(showDetailDataList)
-        showDetailAdapter.setHasStableIds(true);
+        showDetailAdapter.setHasStableIds(true)
         binding.showVideosRecycler.adapter = showDetailAdapter
 
         viewModel.topicSlug.value = intent.getStringExtra("topic_slug")
@@ -50,12 +50,15 @@ class ShowDetailActivity : AppCompatActivity() {
         binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener
         { v, _, scrollY, _, _ ->
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+                viewModel.loadMore.postValue(true)
 
                 when (viewModel.offset.value) {
                     -1 -> {
-                        Toast.makeText(this, "End of list ", Toast.LENGTH_SHORT).show()
+                        Log.i("TAG_1", "End of list")
+                        viewModel.loadMore.postValue(false)
                     }
                     else -> {
+                        viewModel.loadMore.postValue(true)
                         viewModel.loadShowDetail()
                     }
                 }
@@ -78,6 +81,7 @@ class ShowDetailActivity : AppCompatActivity() {
                 showDetailDataList.addAll(it.data)
                 viewModel.offset.postValue(it.next_offset)
                 viewModel.isLoading.postValue(false)
+//                viewModel.loadMore.postValue(false)
                 showDetailAdapter.notifyDataSetChanged()
             }
         })

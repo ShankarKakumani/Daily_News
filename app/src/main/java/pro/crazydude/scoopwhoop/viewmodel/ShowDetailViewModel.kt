@@ -15,6 +15,7 @@ class ShowDetailViewModel(application: Application) : AndroidViewModel(applicati
     val currentOffset = MutableLiveData(0)
     val topicSlug = MutableLiveData("")
     val isLoading = MutableLiveData(true)
+    val loadMore = MutableLiveData(false)
 
     fun loadShowDetail() {
         if(offset.value!!.toInt() == 0 || offset.value!!.toInt() > currentOffset.value!!.toInt()) {
