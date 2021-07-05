@@ -1,57 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="model"
             type="pro.crazydude.scoopwhoop.model.ViewMoreModel" />
     </data>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="wrap_content"
         android:layout_height="240dp"
-        app:cardCornerRadius="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:cardUseCompatPadding="true"
-        app:cardElevation="0dp"
         app:cardBackgroundColor="@color/grey_800"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:loadImage="@{model.imageUrl}"
-                android:scaleType="fitXY"
                 android:contentDescription="@string/image_view"
-                />
+                android:scaleType="fitXY"
+                app:loadImage="@{model.imageUrl}" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/text_background"
-                />
+                android:background="@drawable/text_background" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
                 android:text="@{model.title}"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="12sp"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginEnd="10dp"
-                android:gravity="center"
-                android:layout_alignParentBottom="true"
-                />
+                android:textStyle="bold" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
