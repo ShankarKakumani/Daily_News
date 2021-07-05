@@ -11,11 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ScoopWhoop">
-        <activity android:name=".activity.ViewMoreActivity"></activity>
+
+        <activity android:name=".activity.ViewMoreActivity"
+            android:configChanges="screenLayout|orientation|screenSize"
+            android:screenOrientation="sensorPortrait" />
+
         <activity
             android:name=".activity.ShowDetailActivity"
             android:configChanges="screenLayout|orientation|screenSize"
             android:screenOrientation="sensorPortrait" />
+
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize|locale"
