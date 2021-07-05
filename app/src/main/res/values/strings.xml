@@ -12,5 +12,6 @@
     <string name="str_menu_profile">Profile</string>
     <string name="str_menu">Menu</string>
     <string name="retry">Retry</string>
+    <string name="show_detail">Show Detail</string>
 
 </resources>

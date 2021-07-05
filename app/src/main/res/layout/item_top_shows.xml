@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="model"
             type="pro.crazydude.scoopwhoop.model.TopShowsData" />
     </data>
 
-    <androidx.cardview.widget.CardView android:id="@+id/movieLayout"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="150dp"
         android:layout_height="190dp"
         app:cardCornerRadius="5dp"
@@ -24,6 +25,7 @@
             android:background="?attr/selectableItemBackground">
 
             <ImageView
+                android:contentDescription="@string/image_view"
                 android:id="@+id/movieImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

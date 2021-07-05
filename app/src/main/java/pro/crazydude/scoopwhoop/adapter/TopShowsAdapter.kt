@@ -10,7 +10,8 @@ import pro.crazydude.scoopwhoop.activity.ShowDetailActivity
 import pro.crazydude.scoopwhoop.databinding.ItemTopShowsBinding
 import pro.crazydude.scoopwhoop.model.TopShowsData
 
-class TopShowsAdapter(private val dataList: ArrayList<TopShowsData>) : RecyclerView.Adapter<TopShowsAdapter.ViewHolder>() {
+class TopShowsAdapter(private val dataList: ArrayList<TopShowsData>) :
+    RecyclerView.Adapter<TopShowsAdapter.ViewHolder>() {
 
     class ViewHolder(itemBinding: ItemTopShowsBinding) :
 
@@ -32,11 +33,15 @@ class TopShowsAdapter(private val dataList: ArrayList<TopShowsData>) : RecyclerV
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.model = dataList[position]
-        holder.binding.movieLayout.apply {
+
+        holder.binding.cardView.apply {
+
             setOnClickListener {
+
                 val intent = Intent(it.context, ShowDetailActivity::class.java)
                 intent.putExtra("topic_slug", dataList[position].topic_slug)
                 it.context.startActivity(intent)
+
             }
         }
     }

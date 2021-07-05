@@ -105,10 +105,7 @@ class ShowDetailActivity : AppCompatActivity() {
 
 
     private fun initToolbar() {
-
         setSupportActionBar(binding.toolbar)
-        binding.toolbar.setTitleTextColor(resources.getColor(R.color.white))
-        supportActionBar!!.title = "Show Detail"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 

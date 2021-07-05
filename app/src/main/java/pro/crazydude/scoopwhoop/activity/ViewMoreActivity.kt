@@ -1,19 +1,13 @@
 package pro.crazydude.scoopwhoop.activity
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import pro.crazydude.scoopwhoop.R
-import pro.crazydude.scoopwhoop.adapter.EditorsPickAdapter
-import pro.crazydude.scoopwhoop.adapter.LatestAdapter
-import pro.crazydude.scoopwhoop.adapter.TopShowsAdapter
 import pro.crazydude.scoopwhoop.adapter.ViewMoreAdapter
 import pro.crazydude.scoopwhoop.databinding.ActivityViewMoreBinding
-import pro.crazydude.scoopwhoop.model.EditorsPickData
-import pro.crazydude.scoopwhoop.model.LatestData
-import pro.crazydude.scoopwhoop.model.TopShowsData
 import pro.crazydude.scoopwhoop.model.ViewMoreModel
 import pro.crazydude.scoopwhoop.util.Constants.EDITORS_PICK_URL
 import pro.crazydude.scoopwhoop.util.Constants.LATEST_URL
@@ -39,6 +33,7 @@ class ViewMoreActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
         initViews()
+        initToolbar()
         handleIntentData()
         observeLiveData()
 
@@ -46,28 +41,51 @@ class ViewMoreActivity : AppCompatActivity() {
 
     private fun observeLiveData() {
         viewModel.latestData.observe(this, {
+
             it.let {
 
                 for (data in it.data) {
-                    viewMoreDataList.add(ViewMoreModel(data.feature_img, data.title))
+                    viewMoreDataList.add(
+                        ViewMoreModel(
+                            data.feature_img,
+                            data.title,
+                            data.show.topic_display.topic_slug
+                        )
+                    )
                 }
                 viewMoreAdapter.notifyDataSetChanged()
             }
         })
 
         viewModel.editorsPickData.observe(this, {
+
             it.let {
+
                 for (data in it.data) {
-                    viewMoreDataList.add(ViewMoreModel(data.feature_img, data.title))
+                    viewMoreDataList.add(
+                        ViewMoreModel(
+                            data.feature_img,
+                            data.title,
+                            data.show.topic_display.topic_slug
+                        )
+                    )
                 }
                 viewMoreAdapter.notifyDataSetChanged()
             }
         })
 
         viewModel.topShowsData.observe(this, {
+
             it.let {
+
                 for (data in it.data) {
-                    viewMoreDataList.add(ViewMoreModel(data.feature_img_port, data.topic_name))
+                    viewMoreDataList.add(
+                        ViewMoreModel(
+                            data.feature_img_port,
+                            data.topic_name,
+                            data.topic_slug
+                        )
+                    )
                 }
                 viewMoreAdapter.notifyDataSetChanged()
             }
@@ -120,6 +138,19 @@ class ViewMoreActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    private fun initToolbar() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 

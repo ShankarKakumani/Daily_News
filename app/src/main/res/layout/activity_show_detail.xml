@@ -27,6 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:textColor="@color/white"
+            app:title="@string/show_detail"
+            app:titleTextColor="@color/white"
             app:contentInsetStartWithNavigation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +49,7 @@
 
 
                 <ImageView
+                    android:contentDescription="@string/image_view"
                     android:id="@+id/coverImage"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"

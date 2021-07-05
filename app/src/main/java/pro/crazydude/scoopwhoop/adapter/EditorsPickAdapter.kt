@@ -10,7 +10,8 @@ import pro.crazydude.scoopwhoop.activity.ShowDetailActivity
 import pro.crazydude.scoopwhoop.databinding.ItemEditorsPickBinding
 import pro.crazydude.scoopwhoop.model.EditorsPickData
 
-class EditorsPickAdapter(private val dataList: ArrayList<EditorsPickData>) : RecyclerView.Adapter<EditorsPickAdapter.ViewHolder>() {
+class EditorsPickAdapter(private val dataList: ArrayList<EditorsPickData>) :
+    RecyclerView.Adapter<EditorsPickAdapter.ViewHolder>() {
 
     class ViewHolder(itemBinding: ItemEditorsPickBinding) :
 
@@ -34,10 +35,13 @@ class EditorsPickAdapter(private val dataList: ArrayList<EditorsPickData>) : Rec
         holder.binding.model = dataList[position]
 
         holder.binding.movieLayout.apply {
+
             setOnClickListener {
+
                 val intent = Intent(it.context, ShowDetailActivity::class.java)
                 intent.putExtra("topic_slug", dataList[position].show.topic_display.topic_slug)
                 it.context.startActivity(intent)
+
             }
         }
     }
