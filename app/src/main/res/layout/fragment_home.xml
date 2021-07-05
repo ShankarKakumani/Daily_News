@@ -9,6 +9,9 @@
             name="viewModel"
             type="pro.crazydude.scoopwhoop.viewmodel.MainActivityViewModel" />
 
+        <variable
+            name="clickHandler"
+            type="pro.crazydude.scoopwhoop.fragment.HomeFragment.ClickHandler" />
         <import type="android.view.View"/>
     </data>
     <RelativeLayout
@@ -20,6 +23,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            tools:visibility="visible"
             android:visibility="@{viewModel.isLoading()? View.GONE : View.VISIBLE, default = gone}"
             >
 
@@ -73,10 +77,12 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/latestViewMore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="@string/view_more"
+                        android:onClick="@{clickHandler::viewMore}"
                         android:textStyle="bold"
                         android:textColor="@color/white"
                         android:layout_centerVertical="true"
@@ -132,10 +138,12 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/editorsPickViewMore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="@string/view_more"
+                        android:onClick="@{clickHandler::viewMore}"
                         android:textColor="@color/white"
                         android:textStyle="bold"
                         android:layout_centerVertical="true"
@@ -191,11 +199,13 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/topShowsViewMore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="@string/view_more"
                         android:textColor="@color/white"
+                        android:onClick="@{clickHandler::viewMore}"
                         android:textStyle="bold"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="10dp"

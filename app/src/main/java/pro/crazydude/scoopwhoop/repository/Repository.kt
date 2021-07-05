@@ -20,7 +20,7 @@ class Repository(private val context: Context) {
 
     private var queue: RequestQueue = Volley.newRequestQueue(context)
 
-    fun getData(dataModel: MutableLiveData<CarouselModel>, haveInternet: MutableLiveData<Boolean>) {
+    fun getCarouselData(dataModel: MutableLiveData<CarouselModel>, haveInternet: MutableLiveData<Boolean>) {
 
         val carouselRequest = StringRequest(
             Request.Method.GET, CAROUSEL_URL,

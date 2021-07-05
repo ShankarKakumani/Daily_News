@@ -15,9 +15,10 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     val topShowsData = MutableLiveData<TopShowsModel>()
     val isLoading = MutableLiveData(true)
     val haveInternet = MutableLiveData(true)
+    val toolbarTitle = MutableLiveData("")
 
     fun loadCarousel() {
-        repository.getData(carouselData, haveInternet)
+        repository.getCarouselData(carouselData, haveInternet)
     }
 
     fun loadLatest() {
@@ -30,6 +31,13 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
 
     fun loadTopShows() {
         repository.getTopShows(topShowsData)
+    }
+
+    fun loadAllData() {
+        loadCarousel()
+        loadLatest()
+        loadEditorsPick()
+        loadTopShows()
     }
 
 }

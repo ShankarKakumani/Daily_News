@@ -1,5 +1,6 @@
 package pro.crazydude.scoopwhoop.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +15,9 @@ import com.glide.slider.library.animations.DescriptionAnimation
 import com.glide.slider.library.slidertypes.BaseSliderView
 import com.glide.slider.library.slidertypes.TextSliderView
 import com.glide.slider.library.tricks.ViewPagerEx
+import pro.crazydude.scoopwhoop.R
 import pro.crazydude.scoopwhoop.activity.ShowDetailActivity
+import pro.crazydude.scoopwhoop.activity.ViewMoreActivity
 import pro.crazydude.scoopwhoop.adapter.EditorsPickAdapter
 import pro.crazydude.scoopwhoop.adapter.LatestAdapter
 import pro.crazydude.scoopwhoop.adapter.TopShowsAdapter
@@ -23,10 +26,14 @@ import pro.crazydude.scoopwhoop.model.Carousel
 import pro.crazydude.scoopwhoop.model.EditorsPickData
 import pro.crazydude.scoopwhoop.model.LatestData
 import pro.crazydude.scoopwhoop.model.TopShowsData
+import pro.crazydude.scoopwhoop.util.Constants.EDITORS_PICK_URL
+import pro.crazydude.scoopwhoop.util.Constants.LATEST_URL
+import pro.crazydude.scoopwhoop.util.Constants.TOP_SHOWS_URL
 import pro.crazydude.scoopwhoop.viewmodel.MainActivityViewModel
 
 
-class HomeFragment : Fragment(), BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener  {
+class HomeFragment : Fragment(), BaseSliderView.OnSliderClickListener,
+    ViewPagerEx.OnPageChangeListener {
 
 
     private lateinit var binding: FragmentHomeBinding
@@ -50,7 +57,7 @@ class HomeFragment : Fragment(), BaseSliderView.OnSliderClickListener, ViewPager
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
-
+        binding.clickHandler = ClickHandler()
         viewModel = ViewModelProvider(requireActivity()).get(MainActivityViewModel::class.java)
 
         initViews()
@@ -69,11 +76,14 @@ class HomeFragment : Fragment(), BaseSliderView.OnSliderClickListener, ViewPager
             bindData()
         }
 
-
         latestRecycler()
         editorPicks()
         topShows()
 
+    }
+
+    private fun bindData() {
+        viewModel.loadAllData()
     }
 
 
@@ -135,14 +145,42 @@ class HomeFragment : Fragment(), BaseSliderView.OnSliderClickListener, ViewPager
         })
     }
 
-    private fun bindData() {
-        viewModel.loadCarousel()
-        viewModel.loadLatest()
-        viewModel.loadEditorsPick()
-        viewModel.loadTopShows()
+
+    class ClickHandler {
+
+        private lateinit var context: Context
+
+        fun viewMore(view: View) {
+
+            context = view.context
+
+            when (view.id) {
+
+                R.id.latestViewMore -> {
+                    openViewMoreActivity(LATEST_URL)
+                }
+
+                R.id.editorsPickViewMore -> {
+                    openViewMoreActivity(EDITORS_PICK_URL)
+                }
+
+                R.id.topShowsViewMore -> {
+                    openViewMoreActivity(TOP_SHOWS_URL)
+                }
+            }
+        }
+
+        private fun openViewMoreActivity(url: String) {
+            val intent = Intent(context, ViewMoreActivity::class.java)
+            intent.putExtra("apiUrl", url)
+            context.startActivity(intent)
+        }
+
     }
 
+
     private fun slider() {
+
         imageSlider = binding.slider
 
         val requestOptions = RequestOptions().centerCrop()

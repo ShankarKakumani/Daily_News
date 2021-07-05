@@ -11,18 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ScoopWhoop">
-
-
-        <activity android:name=".activity.ShowDetailActivity"
+        <activity android:name=".activity.ViewMoreActivity"></activity>
+        <activity
+            android:name=".activity.ShowDetailActivity"
             android:configChanges="screenLayout|orientation|screenSize"
-            android:screenOrientation="sensorPortrait"
-            />
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/SplashTheme"
             android:configChanges="orientation|screenSize|locale"
             android:screenOrientation="sensorPortrait"
-            >
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
